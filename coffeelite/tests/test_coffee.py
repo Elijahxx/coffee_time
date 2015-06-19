@@ -125,7 +125,8 @@ class TestTube(unittest.TestCase):
         try:
             tube.dispense()
         except:
-            self.assertEqual(tube.quantity, 0)
+            pass
+        self.assertEqual(tube.quantity, 0)
 
 
     def test_doesnt_dispense_when_not_enough(self):
@@ -133,7 +134,8 @@ class TestTube(unittest.TestCase):
         try:
             tube.dispense(6)
         except:
-            self.assertEqual(tube.quantity, 5)
+            pass
+        self.assertEqual(tube.quantity, 5)
 
 
 class TestCapsule(unittest.TestCase):

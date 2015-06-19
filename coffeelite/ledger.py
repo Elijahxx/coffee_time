@@ -1,5 +1,5 @@
 class Customer(object):
-    def __init__(self, name='ghost', balance=0.0):
+    def __init__(self, name='ghost', balance=0):
         self.name = name
         self.balance = balance
 
@@ -7,9 +7,12 @@ class Customer(object):
         return "%s. Balance = %d" % (self.name, self.balance)
 
     def debit(self, amount):
-        print "Debiting %dp from %s" % (amount, self.name)
-        self.balance -= amount
-        print "%s now has %dp" % (self.name, self.balance)
+        if self.balance < amount:
+            raise ValueError("Tried to debit %dp but only %dp left" % (amount, self.balance))
+        else:
+            print "Debiting %dp from %s" % (amount, self.name)
+            self.balance -= amount
+            print "%s now has %dp" % (self.name, self.balance)
 
     def credit(self, amount):
         print "Crediting %dp to %s" % (amount, self.name)

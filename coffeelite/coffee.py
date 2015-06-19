@@ -48,11 +48,16 @@ class Vendor(object):
 
     def vend(self, customer=Customer(), coffee_type='espresso', quantity=1):
         tube = self.select_tube(coffee_type)
-        try:
-            customer.debit(tube.cost*quantity)
-            tube.dispense(quantity)
-        except:
-            print "Lack of credit balance or coffee type"
+        total_cost = tube.cost * quantity
+
+        if total_cost <= customer.balance:
+            if quantity <= tube.quantity:
+                customer.debit(total_cost)
+                tube.dispense(quantity)
+            else:
+                raise ValueError("Tried to vend %d capsules but only %d left" % (quantity, tube.quantity))
+        else:
+            raise ValueError("Total cost of %d too much. Balance is %d" % (total_cost, customer.balance))
 
 
 if __name__ == "__main__":
