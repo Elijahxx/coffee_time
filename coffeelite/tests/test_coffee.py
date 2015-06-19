@@ -97,9 +97,26 @@ class TestTube(unittest.TestCase):
         self.capsules_test(capsules, quantity=2, coffee_type='lungo')
 
     def test_load(self):
-        # tube = Tube(coffee_type, quantity, cost)
-        # self.assertEqual(expected, tube.load(quantity))
-        assert False # TODO: implement your test here
+        tube = Tube(coffee_type='intenso', quantity=0)
+
+        self.assertEqual(0, tube.quantity)
+        tube.load(3)
+        self.assertEqual(3, tube.quantity)
+        tube.load()
+        self.assertEqual(4, tube.quantity)
+
+    def test_load_and_dispense(self):
+        tube = Tube(coffee_type='caramelito', quantity=0)
+
+        tube.load()
+        self.assertEqual(1, tube.quantity)
+        tube.dispense()
+        self.assertEqual(0, tube.quantity)
+        tube.load(2)
+        self.assertEqual(2, tube.quantity)
+        tube.dispense(2)
+        self.assertEqual(0, tube.quantity)
+
 
 if __name__ == '__main__':
     unittest.main()

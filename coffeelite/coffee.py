@@ -20,10 +20,10 @@ class Tube(object):
         print "%d capsules left" % self.quantity
         return [Capsule(self.coffee_type)] * quantity
 
-    def load(self, quantity):
+    def load(self, quantity=1):
         print "Loading %d capsules of %s" % (quantity, self.coffee_type)
         self.quantity += quantity
-        print "%d capsules left" % self.quantity
+        print "%d capsules in tube" % self.quantity
 
 
 class Vendor(object):
