@@ -136,5 +136,12 @@ class TestTube(unittest.TestCase):
             self.assertEqual(tube.quantity, 5)
 
 
+class TestCapsule(unittest.TestCase):
+    def test___init__(self):
+        capsule = Capsule('decaffeinato')
+        self.assertIsInstance(capsule, Capsule)
+        self.assertEqual('decaffeinato', capsule.coffee_type)
+
+
 if __name__ == '__main__':
     unittest.main()
