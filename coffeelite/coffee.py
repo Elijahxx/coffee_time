@@ -1,6 +1,7 @@
-# class Tube(object):
-#     def __init__(self, coffee_type='espresso'):
-#         self.coffee_type = coffee_type
+class Tube(object):
+    def __init__(self, coffee_type='espresso', quantity=0):
+        self.coffee_type = coffee_type
+        self.quantity = quantity
 
 class Vendor(object):
     def __init__(self, *args):
