@@ -14,6 +14,35 @@ class TestVendor(unittest.TestCase):
         self.assertEqual(coffee_types, vendor.coffee_types)
 
 
+    def test_select_tube(self):
+        vendor = Vendor('espresso','intenso','lungo','decaffeinato','caramelito')
+        tube = vendor.select_tube('intenso')
+        self.assertEqual('intenso', tube.coffee_type)
+
+
+    def test_vend(self):
+        vendor = Vendor('espresso','intenso','lungo','decaffeinato','caramelito')
+        customer = Customer(balance=1000)
+        tube = vendor.select_tube('lungo') # TODO: replace tube with vendor('lungo') by setting dict as class type in Vendor
+        quantity = 2
+
+        quantity_before = tube.quantity
+        balance_before = customer.balance
+
+        vendor.vend(customer, 'lungo', quantity=quantity)
+
+        quantity_after = tube.quantity
+        balance_after = customer.balance
+
+        cost = tube.cost*quantity
+
+        self.assertEqual(quantity, quantity_before - quantity_after)
+        self.assertEqual(cost, balance_before - balance_after)
+        self.assertGreater(cost, 0)
+
+        # TODO: assert that vendor.vend(customer, 'lungo', 2) is ('lungo', 2)
+        # self.assertEqual(expected, vendor.vend(customer, coffee_type, quantity))
+
 class TestTube(unittest.TestCase):
     def test___init__(self):
         coffee_type = 'espresso'
@@ -22,14 +51,14 @@ class TestTube(unittest.TestCase):
 
 
     def test_quantity(self):
-        tube = Tube(coffee_type='espresso', quantity=5)
+        tube = Tube(quantity=5)
         self.assertEqual(5,tube.quantity)
 
 
     def test___repr__(self):
-        tube = Tube(coffee_type='lungo', quantity=2, cost=0.3)
+        tube = Tube(coffee_type='lungo', quantity=2, cost=30)
         self.test_type_of_attributes(tube)
-        self.assertEqual("(lungo, 2, 0.30)", tube.__repr__())
+        self.assertEqual("(lungo, 2, 30)", tube.__repr__())
 
 
     def test_type_of_attributes(self, tube=Tube()):
@@ -40,6 +69,37 @@ class TestTube(unittest.TestCase):
     def test_cost_is_strictly_positive(self):
         tube = Tube()
         self.assertGreater(tube.cost, 0)
+
+
+    def capsules_test(self, capsules, quantity, coffee_type):
+        self.assertEqual(quantity, len(capsules))
+        for capsule in capsules:
+            self.assertIsInstance(capsule, Capsule)
+            self.assertEqual(capsule.coffee_type, coffee_type)
+
+
+    def test_dispense(self):
+        tube = Tube(coffee_type='lungo', quantity=5)
+
+        capsules = tube.dispense(2)
+
+        self.assertEqual(3, tube.quantity)
+        self.capsules_test(capsules, quantity=2, coffee_type='lungo')
+
+        capsules = tube.dispense()
+
+        self.assertEqual(2, tube.quantity)
+        self.capsules_test(capsules, quantity=1, coffee_type='lungo')
+
+        capsules = tube.dispense(2)
+
+        self.assertEqual(0, tube.quantity)
+        self.capsules_test(capsules, quantity=2, coffee_type='lungo')
+
+    def test_load(self):
+        # tube = Tube(coffee_type, quantity, cost)
+        # self.assertEqual(expected, tube.load(quantity))
+        assert False # TODO: implement your test here
 
 if __name__ == '__main__':
     unittest.main()

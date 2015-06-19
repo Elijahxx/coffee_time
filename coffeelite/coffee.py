@@ -1,19 +1,24 @@
 from ledger import Customer
 
+class Capsule(object):
+    def __init__(self, coffee_type):
+        self.coffee_type = coffee_type
+
 
 class Tube(object):
-    def __init__(self, coffee_type='espresso', quantity=0, cost=0.35):
+    def __init__(self, coffee_type='espresso', quantity=0, cost=35):
         self.coffee_type = coffee_type
         self.quantity = quantity
         self.cost = cost
 
     def __repr__(self):
-        return "(%s, %s, %.2f)" % (self.coffee_type, self.quantity, self.cost)
+        return "(%s, %s, %d)" % (self.coffee_type, self.quantity, self.cost)
 
-    def dispense(self, quantity):
+    def dispense(self, quantity=1):
         print "Dispensing %d capsules of %s" % (quantity, self.coffee_type)
         self.quantity -= quantity
         print "%d capsules left" % self.quantity
+        return [Capsule(self.coffee_type)] * quantity
 
     def load(self, quantity):
         print "Loading %d capsules of %s" % (quantity, self.coffee_type)
@@ -51,7 +56,7 @@ if __name__ == "__main__":
     vendor = Vendor('espresso','intenso','lungo','decaffeinato','caramelito')
 
     # A customer called Tom approaches
-    tom = Customer(name='Tom', balance=13)
+    tom = Customer(name='Tom', balance=1300)  # TODO: class Balance inherit from int, balance.pounds = float
     print tom
 
     # Tom wants to buy some coffee. He browses the choices
