@@ -15,10 +15,13 @@ class Tube(object):
         return "(%s, %s, %d)" % (self.coffee_type, self.quantity, self.cost)
 
     def dispense(self, quantity=1):
-        print "Dispensing %d capsules of %s" % (quantity, self.coffee_type)
-        self.quantity -= quantity
-        print "%d capsules left" % self.quantity
-        return [Capsule(self.coffee_type)] * quantity
+        if self.quantity < quantity:
+            raise ValueError("Tried to dispense %d capsules but only %d left" % (quantity, self.quantity))
+        else:
+            print "Dispensing %d capsules of %s" % (quantity, self.coffee_type)
+            self.quantity -= quantity
+            print "%d capsules left" % self.quantity
+            return [Capsule(self.coffee_type)] * quantity
 
     def load(self, quantity=1):
         print "Loading %d capsules of %s" % (quantity, self.coffee_type)

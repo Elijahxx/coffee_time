@@ -96,6 +96,7 @@ class TestTube(unittest.TestCase):
         self.assertEqual(0, tube.quantity)
         self.capsules_test(capsules, quantity=2, coffee_type='lungo')
 
+
     def test_load(self):
         tube = Tube(coffee_type='intenso', quantity=0)
 
@@ -104,6 +105,7 @@ class TestTube(unittest.TestCase):
         self.assertEqual(3, tube.quantity)
         tube.load()
         self.assertEqual(4, tube.quantity)
+
 
     def test_load_and_dispense(self):
         tube = Tube(coffee_type='caramelito', quantity=0)
@@ -116,6 +118,22 @@ class TestTube(unittest.TestCase):
         self.assertEqual(2, tube.quantity)
         tube.dispense(2)
         self.assertEqual(0, tube.quantity)
+
+
+    def test_doesnt_dispense_when_empty(self):
+        tube = Tube(quantity=0)
+        try:
+            tube.dispense()
+        except:
+            self.assertEqual(tube.quantity, 0)
+
+
+    def test_doesnt_dispense_when_not_enough(self):
+        tube = Tube(quantity=5)
+        try:
+            tube.dispense(6)
+        except:
+            self.assertEqual(tube.quantity, 5)
 
 
 if __name__ == '__main__':
