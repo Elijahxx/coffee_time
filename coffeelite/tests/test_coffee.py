@@ -27,13 +27,19 @@ class TestTube(unittest.TestCase):
 
 
     def test___repr__(self):
-        tube = Tube('lungo', 2)
-        self.assertEqual("(lungo, 2)", tube.__repr__())
+        tube = Tube(coffee_type='lungo', quantity=2, cost=0.3)
+        self.test_type_of_attributes(tube)
+        self.assertEqual("(lungo, 2, 0.30)", tube.__repr__())
 
 
     def test_type_of_attributes(self, tube=Tube()):
         self.assertEqual(type(tube.coffee_type), type(str()))
         self.assertEqual(type(tube.quantity), type(int()))
+
+
+    def test_cost_is_strictly_positive(self):
+        tube = Tube()
+        self.assertGreater(tube.cost, 0)
 
 if __name__ == '__main__':
     unittest.main()
